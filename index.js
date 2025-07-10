@@ -1,6 +1,7 @@
 require('dotenv').config()
 const TelegramBot = require('node-telegram-bot-api')
 const { startIQTest, handleIQAnswer } = require('./iq')
+const { startVirtualAssistant, handleVirtualReply } = require('./virtual') // 👈 Осы жолды үстіне көшірдік
 
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true })
 console.log('✅ Kazrex бот іске қосылды!')
@@ -32,6 +33,9 @@ bot.on('message', (msg) => {
     return handleIQAnswer(bot, msg, state)
   }
 
+  // Виртуалды көмекші логикасы
+  handleVirtualReply(bot, msg)
+
   // Мәзір логикасы
   switch (text) {
     case '📚 Жобалар':
@@ -51,7 +55,7 @@ bot.on('message', (msg) => {
       break
 
     case '🌳 Шежіре генераторы':
-      bot.sendMessage(chatId, '🔗 Шежіре құралы: https://kazrex.at.ua/shezhire', {
+      bot.sendMessage(chatId, '🔗 Шежіре құралы: https://github.io/shezhire', {
         reply_markup: {
           keyboard: [['🔙 Артқа']],
           resize_keyboard: true
@@ -72,7 +76,7 @@ bot.on('message', (msg) => {
       break
 
     case '📞 Виртуалды оператор':
-      bot.sendMessage(chatId, 'Сұрағыңызды жазыңыз. Мен көмектесуге тырысамын!')
+      startVirtualAssistant(bot, msg)
       break
 
     case 'ℹ️ Біз туралы':
@@ -103,3 +107,4 @@ const PORT = process.env.PORT || 3000
 require('http').createServer().listen(PORT, () => {
   console.log(`🌐 Server is running on port ${PORT}`)
 })
+
