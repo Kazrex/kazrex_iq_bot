@@ -55,7 +55,7 @@ bot.on('message', (msg) => {
       break
 
     case '🌳 Шежіре генераторы':
-      bot.sendMessage(chatId, '🔗 Шежіре құралы: https://github.io/shezhire', {
+      bot.sendMessage(chatId, '🔗 Шежіре құралы: https://kazrex/github.io/shezhire', {
         reply_markup: {
           keyboard: [['🔙 Артқа']],
           resize_keyboard: true
